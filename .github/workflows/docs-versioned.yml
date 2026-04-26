@@ -122,6 +122,10 @@ jobs:
             cp docs-site/site/sitemap.xml gh-pages/sitemap.xml
           fi
 
+          if compgen -G "docs-site/site/google*.html" > /dev/null; then
+            cp docs-site/site/google*.html gh-pages/
+          fi
+
           uv run python docs-site/scripts/build_versions_manifest.py gh-pages latest
 
           cp gh-pages/versions.json "gh-pages/${DOC_VERSION}/versions.json"
