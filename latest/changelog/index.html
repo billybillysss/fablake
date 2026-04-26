@@ -25,17 +25,31 @@
   <body>
     <header class="topbar">
       <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">Menu</button>
-      <div class="brand">
-        <img class="brand-icon" src="../assets/icons/icon-path-grid.svg" alt="">
-        <span>fablake</span>
+      <div class="topbar-left">
+        <div class="brand">
+          <img class="brand-icon" src="../assets/icons/icon-path-grid.svg" alt="">
+          <span>fablake</span>
+        </div>
       </div>
-      <div class="topbar-right">
+      <div class="topbar-center">
         <div class="crumb">Changelog</div>
-        <a class="repo-link" href="https://github.com/billybillysss/fablake" target="_blank" rel="noopener noreferrer">GitHub</a>
         <label class="version-picker" for="version-select">
           <span>Version</span>
           <select id="version-select" aria-label="Select documentation version"></select>
         </label>
+      </div>
+      <div class="topbar-right">
+        <a class="repo-link" href="https://github.com/billybillysss/fablake" target="_blank" rel="noopener noreferrer" aria-label="Open GitHub repository">
+          <span class="repo-link-icon" aria-hidden="true">◆</span>
+          <span class="repo-link-body">
+            <span class="repo-link-title">billybillysss/fablake</span>
+            <span class="repo-link-meta">
+              <span class="repo-chip">v0.1.0</span>
+              <span class="repo-stat">★ 0</span>
+              <span class="repo-stat">⑂ 0</span>
+            </span>
+          </span>
+        </a>
       </div>
     </header>
     <div class="version-warning" id="version-warning" hidden>
