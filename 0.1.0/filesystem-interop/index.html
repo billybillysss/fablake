@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filesystem Interop - fablake</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/icons/icon-path-grid.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css">
+    <link rel="stylesheet" href="../stylesheets/extra.css">
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/python.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/bash.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/json.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/yaml.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/toml.min.js"></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.hljs) {
+          window.hljs.highlightAll();
+        }
+      });
+    </script>
+    <script defer src="../javascripts/docs.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">Menu</button>
+      <div class="brand">
+        <img class="brand-icon" src="../assets/icons/icon-path-grid.svg" alt="">
+        <span>fablake</span>
+      </div>
+      <div class="topbar-right">
+        <div class="crumb">Filesystem Interop</div>
+        <label class="version-picker" for="version-select">
+          <span>Version</span>
+          <select id="version-select" aria-label="Select documentation version"></select>
+        </label>
+      </div>
+    </header>
+    <div class="version-warning" id="version-warning" hidden>
+      You are viewing an older version of the docs.
+      <a id="version-warning-link" href="#">Go to latest</a>
+    </div>
+    <div class="layout">
+      <aside class="sidebar left" id="sidebar-left">
+        <ul>
+<li><a href="../">Home</a></li>
+<li>Getting Started<ul>
+<li><a href="../installation/">Installation</a></li>
+<li><a href="../quickstart/">Quickstart</a></li>
+<li><a href="../authentication/">Authentication</a></li>
+</ul>
+</li>
+<li>Guides<ul>
+<li><a href="../lakehouse/">Lakehouse API</a></li>
+<li><a href="../files-and-paths/">Files and Paths</a></li>
+<li><a href="../tables/">Tables</a></li>
+<li><a class="active" href=".">Filesystem Interop</a></li>
+<li><a href="../usage-examples/">Usage Examples</a></li>
+</ul>
+</li>
+<li>Reference<ul>
+<li><a href="../api-reference/">API Overview</a></li>
+<li><a href="../api/">Python API</a></li>
+</ul>
+</li>
+<li><a href="../design-notes/">Design Notes</a></li>
+<li><a href="../changelog/">Changelog</a></li>
+</ul>
+      </aside>
+      <main class="content">
+        <h1 id="filesystem-interop"><a class="toclink" href="#filesystem-interop">Filesystem interop</a></h1>
+<p>Use <code>lh.fs</code> and <code>lh.storage_options</code> to integrate with data tools.</p>
+<h2 id="pandas-pyarrow"><a class="toclink" href="#pandas-pyarrow">pandas + PyArrow</a></h2>
+<pre><code class="language-python">import pandas as pd
+
+df = pd.read_parquet(
+    lh.files / &quot;raw&quot; / &quot;orders.parquet&quot;,
+    engine=&quot;pyarrow&quot;,
+    filesystem=lh.fs,
+)
+</code></pre>
+<h2 id="pyarrow"><a class="toclink" href="#pyarrow">PyArrow</a></h2>
+<pre><code class="language-python">import pyarrow.parquet as pq
+
+table = pq.read_table(
+    lh.files / &quot;raw&quot; / &quot;orders.parquet&quot;,
+    filesystem=lh.fs,
+)
+</code></pre>
+<h2 id="polars"><a class="toclink" href="#polars">Polars</a></h2>
+<pre><code class="language-python">import polars as pl
+
+with lh.fs.open(lh.files / &quot;raw&quot; / &quot;orders.parquet&quot;, &quot;rb&quot;) as stream:
+    df = pl.read_parquet(stream)
+</code></pre>
+<h2 id="dask"><a class="toclink" href="#dask">Dask</a></h2>
+<pre><code class="language-python">import dask.dataframe as dd
+
+ddf = dd.read_parquet(
+    lh.table(&quot;orders&quot;, schema=&quot;brz&quot;),
+    storage_options=lh.storage_options,
+    engine=&quot;pyarrow&quot;,
+)
+</code></pre>
+<h2 id="duckdb"><a class="toclink" href="#duckdb">DuckDB</a></h2>
+<pre><code class="language-python">import duckdb
+
+duckdb.register_filesystem(lh.fs)
+
+df = duckdb.sql(
+    f&quot;SELECT * FROM read_parquet('{lh.table('orders', schema='brz')}') LIMIT 10&quot;,
+).df()
+</code></pre>
+<h2 id="interop-guidance"><a class="toclink" href="#interop-guidance">Interop guidance</a></h2>
+<ul>
+<li>Use <code>lh.files / ...</code> for file-level reads and writes.</li>
+<li>Use <code>lh.table(...)</code> for table-root readers.</li>
+<li>Use <code>lh.fs</code> when the target library accepts a filesystem object.</li>
+<li>Use <code>lh.storage_options</code> when the target library expects fsspec storage options.</li>
+</ul>
+        
+          <div class="pagination">
+            
+              <a class="previous" href="../tables/">&larr; Tables</a>
+            
+            
+              <a class="next" href="../usage-examples/">Usage Examples &rarr;</a>
+            
+          </div>
+        
+      </main>
+      <aside class="sidebar right">
+        <div class="toc">
+<ul>
+<li><a href="#filesystem-interop">Filesystem interop</a><ul>
+<li><a href="#pandas-pyarrow">pandas + PyArrow</a></li>
+<li><a href="#pyarrow">PyArrow</a></li>
+<li><a href="#polars">Polars</a></li>
+<li><a href="#dask">Dask</a></li>
+<li><a href="#duckdb">DuckDB</a></li>
+<li><a href="#interop-guidance">Interop guidance</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+      </aside>
+    </div>
+  </body>
+</html>

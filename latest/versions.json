@@ -4,6 +4,10 @@
     {
       "key": "latest",
       "label": "latest"
+    },
+    {
+      "key": "0.1.0",
+      "label": "0.1.0"
     }
   ]
 }

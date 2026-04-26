@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usage Examples - fablake</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/icons/icon-path-grid.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css">
+    <link rel="stylesheet" href="../stylesheets/extra.css">
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/python.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/bash.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/json.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/yaml.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/toml.min.js"></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.hljs) {
+          window.hljs.highlightAll();
+        }
+      });
+    </script>
+    <script defer src="../javascripts/docs.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">Menu</button>
+      <div class="brand">
+        <img class="brand-icon" src="../assets/icons/icon-path-grid.svg" alt="">
+        <span>fablake</span>
+      </div>
+      <div class="topbar-right">
+        <div class="crumb">Usage Examples</div>
+        <label class="version-picker" for="version-select">
+          <span>Version</span>
+          <select id="version-select" aria-label="Select documentation version"></select>
+        </label>
+      </div>
+    </header>
+    <div class="version-warning" id="version-warning" hidden>
+      You are viewing an older version of the docs.
+      <a id="version-warning-link" href="#">Go to latest</a>
+    </div>
+    <div class="layout">
+      <aside class="sidebar left" id="sidebar-left">
+        <ul>
+<li><a href="../">Home</a></li>
+<li>Getting Started<ul>
+<li><a href="../installation/">Installation</a></li>
+<li><a href="../quickstart/">Quickstart</a></li>
+<li><a href="../authentication/">Authentication</a></li>
+</ul>
+</li>
+<li>Guides<ul>
+<li><a href="../lakehouse/">Lakehouse API</a></li>
+<li><a href="../files-and-paths/">Files and Paths</a></li>
+<li><a href="../tables/">Tables</a></li>
+<li><a href="../filesystem-interop/">Filesystem Interop</a></li>
+<li><a class="active" href=".">Usage Examples</a></li>
+</ul>
+</li>
+<li>Reference<ul>
+<li><a href="../api-reference/">API Overview</a></li>
+<li><a href="../api/">Python API</a></li>
+</ul>
+</li>
+<li><a href="../design-notes/">Design Notes</a></li>
+<li><a href="../changelog/">Changelog</a></li>
+</ul>
+      </aside>
+      <main class="content">
+        <h1 id="usage-examples"><a class="toclink" href="#usage-examples">Usage examples</a></h1>
+<p>This guide collects the main usage patterns for <code>fablake</code>, centered on the
+filesystem-first <code>Lakehouse</code> API.</p>
+<h2 id="create-a-lakehouse-context"><a class="toclink" href="#create-a-lakehouse-context">Create a lakehouse context</a></h2>
+<p>You can bind a lakehouse by name or by id.</p>
+<p>Use one style per instance:</p>
+<ul>
+<li>names: <code>workspace=...</code> and <code>lakehouse=...</code></li>
+<li>ids: <code>workspace_id=...</code> and <code>lakehouse_id=...</code></li>
+</ul>
+<p>Mixed values are rejected.</p>
+<p>Use whichever style is easier for your application inputs.</p>
+<pre><code class="language-python">from fablake import Lakehouse
+
+lh = Lakehouse(
+    workspace=&quot;Finance&quot;,
+    lakehouse=&quot;Ops&quot;,
+    schema_enabled=True,
+)
+
+lh_by_id = Lakehouse(
+    workspace_id=&quot;&lt;workspace-id&gt;&quot;,
+    lakehouse_id=&quot;&lt;lakehouse-id&gt;&quot;,
+    schema_enabled=True,
+)
+</code></pre>
+<h2 id="filesystem-and-pathlib-like-paths"><a class="toclink" href="#filesystem-and-pathlib-like-paths">Filesystem and pathlib-like paths</a></h2>
+<p><code>lh.files</code> is the root of the <code>Files</code> area.</p>
+<pre><code class="language-python">from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=True)
+
+path = lh.files / &quot;raw&quot; / &quot;orders&quot; / &quot;2026-01-01.json&quot;
+
+print(path.as_posix())
+# raw/orders/2026-01-01.json
+
+print(str(path))
+# abfss://.../Files/raw/orders/2026-01-01.json
+</code></pre>
+<p>You can also build paths explicitly:</p>
+<pre><code class="language-python">logs = lh.path(&quot;logs/2026/04&quot;, root=&quot;Files&quot;)
+archive = lh.path(&quot;archive/2026&quot;, root=&quot;Files&quot;)
+</code></pre>
+<p>Use <code>lh.files / ...</code> for most file paths. Use <code>lh.path(...)</code> when you already
+have a path string.</p>
+<h2 id="read-and-write-files"><a class="toclink" href="#read-and-write-files">Read and write files</a></h2>
+<pre><code class="language-python">from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=True)
+
+config = lh.files / &quot;config&quot; / &quot;settings.json&quot;
+
+if config.exists():
+    text = config.read_text()
+
+output = lh.files / &quot;tmp&quot; / &quot;result.txt&quot;
+output.parent.mkdir(parents=True, exist_ok=True)
+output.write_text(&quot;done&quot;)
+
+renamed = output.rename(&quot;result-final.txt&quot;)
+</code></pre>
+<p><code>rename(...)</code> only accepts a new file name (single segment). Targets such as
+<code>../result.txt</code> or <code>archive/result.txt</code> are rejected.</p>
+<h2 id="use-the-filesystem-handle"><a class="toclink" href="#use-the-filesystem-handle">Use the filesystem handle</a></h2>
+<p><code>lh.fs</code> is the main filesystem handle.</p>
+<pre><code class="language-python">from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=True)
+
+with lh.fs.open(lh.files / &quot;folder1&quot; / &quot;a.yaml&quot;, &quot;rb&quot;) as stream:
+    payload = stream.read()
+</code></pre>
+<h2 id="inspect-storage-options"><a class="toclink" href="#inspect-storage-options">Inspect storage options</a></h2>
+<p><code>lh.storage_options</code> exposes the storage/backend configuration used to create
+<code>lh.fs</code>.</p>
+<pre><code class="language-python">from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=True)
+
+print(lh.storage_options)
+</code></pre>
+<h2 id="table-root-locators"><a class="toclink" href="#table-root-locators">Table root locators</a></h2>
+<p><code>lh.table(name, schema=...)</code> returns the physical table root path in fablake.
+Pass that path to the library that should read the table.</p>
+<h3 id="schema-enabled-lakehouses"><a class="toclink" href="#schema-enabled-lakehouses">Schema-enabled lakehouses</a></h3>
+<pre><code class="language-python">from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=True)
+
+orders = lh.table(&quot;orders&quot;, schema=&quot;brz&quot;)
+default_orders = lh.table(&quot;orders&quot;, schema=None)
+
+print(str(orders))
+# abfss://.../Tables/brz/orders
+
+print(str(default_orders))
+# abfss://.../Tables/dbo/orders
+</code></pre>
+<h3 id="non-schema-lakehouses"><a class="toclink" href="#non-schema-lakehouses">Non-schema lakehouses</a></h3>
+<pre><code class="language-python">from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=False)
+
+orders = lh.table(&quot;orders&quot;, schema=None)
+
+print(str(orders))
+# abfss://.../Tables/orders
+</code></pre>
+<p>For non-schema lakehouses, omit the schema.</p>
+<h2 id="dask-example"><a class="toclink" href="#dask-example">Dask example</a></h2>
+<p>Install Dask separately if you want to use this workflow.</p>
+<pre><code class="language-python">import dask.dataframe as dd
+from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=True)
+
+ddf = dd.read_parquet(
+    lh.table(&quot;orders&quot;, schema=&quot;brz&quot;),
+    storage_options=lh.storage_options,
+    engine=&quot;pyarrow&quot;,
+)
+</code></pre>
+<h2 id="pandas-example"><a class="toclink" href="#pandas-example">pandas example</a></h2>
+<p>Install <code>pandas</code> and <code>pyarrow</code> separately if you want to use this workflow.</p>
+<pre><code class="language-python">import pandas as pd
+from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=True)
+
+df = pd.read_parquet(
+    lh.files / &quot;raw&quot; / &quot;orders.parquet&quot;,
+    engine=&quot;pyarrow&quot;,
+    filesystem=lh.fs,
+)
+</code></pre>
+<h2 id="pyarrow-example"><a class="toclink" href="#pyarrow-example">PyArrow example</a></h2>
+<p>Install <code>pyarrow</code> separately if you want to use this workflow.</p>
+<pre><code class="language-python">import pyarrow.parquet as pq
+from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=True)
+
+table = pq.read_table(
+    lh.files / &quot;raw&quot; / &quot;orders.parquet&quot;,
+    filesystem=lh.fs,
+)
+</code></pre>
+<h2 id="polars-example"><a class="toclink" href="#polars-example">Polars example</a></h2>
+<p>Install <code>polars</code> separately if you want to use this workflow.</p>
+<pre><code class="language-python">import polars as pl
+from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=True)
+
+with lh.fs.open(lh.files / &quot;raw&quot; / &quot;orders.parquet&quot;, &quot;rb&quot;) as stream:
+    df = pl.read_parquet(stream)
+</code></pre>
+<h2 id="duckdb-example"><a class="toclink" href="#duckdb-example">DuckDB example</a></h2>
+<p>Install <code>duckdb</code> separately if you want to use this workflow.</p>
+<pre><code class="language-python">import duckdb
+from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=True)
+
+duckdb.register_filesystem(lh.fs)
+
+df = duckdb.sql(
+    f&quot;SELECT * FROM read_parquet('{lh.table('orders', schema='brz')}') LIMIT 10&quot;,
+).df()
+</code></pre>
+<h2 id="table-roots-are-locators-not-dataframes"><a class="toclink" href="#table-roots-are-locators-not-dataframes">Table roots are locators, not dataframes</a></h2>
+<p><code>lh.table(...)</code> gives you the physical fablake table root. Pass it into the
+library that should read it.</p>
+<pre><code class="language-python">from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=True)
+
+table_root = lh.table(&quot;orders&quot;, schema=&quot;brz&quot;)
+
+print(table_root)
+# abfss://.../Tables/brz/orders
+</code></pre>
+<p>Use that locator with tools like Dask, DuckDB, or any other consumer that can
+work with the table root plus the matching filesystem or storage options.</p>
+<h2 id="discover-tables-by-pattern"><a class="toclink" href="#discover-tables-by-pattern">Discover tables by pattern</a></h2>
+<pre><code class="language-python">from fablake import Lakehouse
+
+lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=True)
+
+for table in lh.tables.list(&quot;db*.*der&quot;):
+    print(table)
+</code></pre>
+        
+          <div class="pagination">
+            
+              <a class="previous" href="../filesystem-interop/">&larr; Filesystem Interop</a>
+            
+            
+              <a class="next" href="../api-reference/">API Overview &rarr;</a>
+            
+          </div>
+        
+      </main>
+      <aside class="sidebar right">
+        <div class="toc">
+<ul>
+<li><a href="#usage-examples">Usage examples</a><ul>
+<li><a href="#create-a-lakehouse-context">Create a lakehouse context</a></li>
+<li><a href="#filesystem-and-pathlib-like-paths">Filesystem and pathlib-like paths</a></li>
+<li><a href="#read-and-write-files">Read and write files</a></li>
+<li><a href="#use-the-filesystem-handle">Use the filesystem handle</a></li>
+<li><a href="#inspect-storage-options">Inspect storage options</a></li>
+<li><a href="#table-root-locators">Table root locators</a><ul>
+<li><a href="#schema-enabled-lakehouses">Schema-enabled lakehouses</a></li>
+<li><a href="#non-schema-lakehouses">Non-schema lakehouses</a></li>
+</ul>
+</li>
+<li><a href="#dask-example">Dask example</a></li>
+<li><a href="#pandas-example">pandas example</a></li>
+<li><a href="#pyarrow-example">PyArrow example</a></li>
+<li><a href="#polars-example">Polars example</a></li>
+<li><a href="#duckdb-example">DuckDB example</a></li>
+<li><a href="#table-roots-are-locators-not-dataframes">Table roots are locators, not dataframes</a></li>
+<li><a href="#discover-tables-by-pattern">Discover tables by pattern</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+      </aside>
+    </div>
+  </body>
+</html>

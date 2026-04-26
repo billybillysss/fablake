@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LakehousePath - fablake</title>
+    <link rel="icon" type="image/svg+xml" href="../../assets/icons/icon-path-grid.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css">
+    <link rel="stylesheet" href="../../stylesheets/extra.css">
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/python.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/bash.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/json.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/yaml.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/toml.min.js"></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.hljs) {
+          window.hljs.highlightAll();
+        }
+      });
+    </script>
+    <script defer src="../../javascripts/docs.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">Menu</button>
+      <div class="brand">
+        <img class="brand-icon" src="../../assets/icons/icon-path-grid.svg" alt="">
+        <span>fablake</span>
+      </div>
+      <div class="topbar-right">
+        <div class="crumb">LakehousePath</div>
+        <label class="version-picker" for="version-select">
+          <span>Version</span>
+          <select id="version-select" aria-label="Select documentation version"></select>
+        </label>
+      </div>
+    </header>
+    <div class="version-warning" id="version-warning" hidden>
+      You are viewing an older version of the docs.
+      <a id="version-warning-link" href="#">Go to latest</a>
+    </div>
+    <div class="layout">
+      <aside class="sidebar left" id="sidebar-left">
+        <ul>
+<li><a href="../../">Home</a></li>
+<li>Getting Started<ul>
+<li><a href="../../installation/">Installation</a></li>
+<li><a href="../../quickstart/">Quickstart</a></li>
+<li><a href="../../authentication/">Authentication</a></li>
+</ul>
+</li>
+<li>Guides<ul>
+<li><a href="../../lakehouse/">Lakehouse API</a></li>
+<li><a href="../../files-and-paths/">Files and Paths</a></li>
+<li><a href="../../tables/">Tables</a></li>
+<li><a href="../../filesystem-interop/">Filesystem Interop</a></li>
+<li><a href="../../usage-examples/">Usage Examples</a></li>
+</ul>
+</li>
+<li>Reference<ul>
+<li><a href="../../api-reference/">API Overview</a></li>
+<li><a href="../">Python API</a></li>
+</ul>
+</li>
+<li><a href="../../design-notes/">Design Notes</a></li>
+<li><a href="../../changelog/">Changelog</a></li>
+</ul>
+      </aside>
+      <main class="content">
+        <h1 id="lakehousepath"><a class="toclink" href="#lakehousepath">LakehousePath</a></h1>
+<p>LakehousePath provides pathlib-like ergonomics over fablake logical paths.</p>
+<h2 id="signature"><a class="toclink" href="#signature">Signature</a></h2>
+<pre><code class="language-python">LakehousePath(fs: FabLakeFileSystem, *, root: str = 'Files', path: str = '')
+</code></pre>
+<h2 id="parameters"><a class="toclink" href="#parameters">Parameters</a></h2>
+<ul>
+<li><code>fs</code>: <code>FabLakeFileSystem</code></li>
+<li><code>root</code>: <code>str</code> (default: <code>Files</code>)</li>
+<li><code>path</code>: <code>str</code> (default: ``)</li>
+</ul>
+<h2 id="description"><a class="toclink" href="#description">Description</a></h2>
+<p>Path-like wrapper for fablake logical paths.</p>
+<p>A <code>LakehousePath</code> represents a logical path under a lakehouse root (for
+example <code>Files</code>) and stringifies to a fully-qualified ABFSS URI.</p>
+<h2 id="example"><a class="toclink" href="#example">Example</a></h2>
+<pre><code class="language-python">path = lh.files / &quot;config&quot; / &quot;settings.json&quot;
+
+if path.exists():
+    print(path.read_text())
+</code></pre>
+<h2 id="methods"><a class="toclink" href="#methods">Methods</a></h2>
+<h3 id="lakehousepathas_posix"><a class="toclink" href="#lakehousepathas_posix">LakehousePath.as_posix</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">as_posix(self) -&gt; 'str'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+</ul>
+<p>Returns: <code>str</code></p>
+<p>No description provided.</p>
+<h3 id="lakehousepathexists"><a class="toclink" href="#lakehousepathexists">LakehousePath.exists</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">exists(self) -&gt; 'bool'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+</ul>
+<p>Returns: <code>bool</code></p>
+<p>Return <code>True</code> when the path exists.</p>
+<h3 id="lakehousepathfind"><a class="toclink" href="#lakehousepathfind">LakehousePath.find</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">find(self, *, maxdepth: 'int | None' = None, withdirs: 'bool' = False)
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>maxdepth</code>: <code>int | None</code> (default: <code>None</code>)</li>
+<li><code>withdirs</code>: <code>bool</code> (default: <code>False</code>)</li>
+</ul>
+<p>Returns: Not declared</p>
+<p>Return descendants discovered by the backend <code>find</code> operation.</p>
+<h2 id="parameters_1"><a class="toclink" href="#parameters_1">Parameters</a></h2>
+<p>maxdepth:
+    Optional recursion limit.
+withdirs:
+    Include directory entries when <code>True</code>.</p>
+<h3 id="lakehousepathglob"><a class="toclink" href="#lakehousepathglob">LakehousePath.glob</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">glob(self, pattern: 'str')
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>pattern</code>: <code>str</code></li>
+</ul>
+<p>Returns: Not declared</p>
+<p>Yield paths matching a glob pattern.</p>
+<h2 id="parameters_2"><a class="toclink" href="#parameters_2">Parameters</a></h2>
+<p>pattern:
+    Glob expression relative to this path.</p>
+<h3 id="lakehousepathinfo"><a class="toclink" href="#lakehousepathinfo">LakehousePath.info</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">info(self) -&gt; 'LakehousePathInfo'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+</ul>
+<p>Returns: <code>LakehousePathInfo</code></p>
+<p>Return normalized metadata for the path.</p>
+<h2 id="returns"><a class="toclink" href="#returns">Returns</a></h2>
+<p>LakehousePathInfo
+    Dataclass containing common path metadata and raw backend payload.</p>
+<h3 id="lakehousepathis_dir"><a class="toclink" href="#lakehousepathis_dir">LakehousePath.is_dir</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">is_dir(self) -&gt; 'bool'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+</ul>
+<p>Returns: <code>bool</code></p>
+<p>Return <code>True</code> when the path points to a directory.</p>
+<h3 id="lakehousepathis_file"><a class="toclink" href="#lakehousepathis_file">LakehousePath.is_file</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">is_file(self) -&gt; 'bool'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+</ul>
+<p>Returns: <code>bool</code></p>
+<p>Return <code>True</code> when the path points to a file.</p>
+<h3 id="lakehousepathiterdir"><a class="toclink" href="#lakehousepathiterdir">LakehousePath.iterdir</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">iterdir(self) -&gt; 'Iterable[LakehousePath]'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+</ul>
+<p>Returns: <code>Iterable[LakehousePath]</code></p>
+<p>Yield immediate child paths for a directory.</p>
+<h3 id="lakehousepathjoinpath"><a class="toclink" href="#lakehousepathjoinpath">LakehousePath.joinpath</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">joinpath(self, *other: 'str') -&gt; 'LakehousePath'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>other</code>: <code>str</code></li>
+</ul>
+<p>Returns: <code>LakehousePath</code></p>
+<p>Return a new path with <code>other</code> segments appended.</p>
+<h2 id="parameters_3"><a class="toclink" href="#parameters_3">Parameters</a></h2>
+<p>*other:
+    One or more path segments.</p>
+<h3 id="lakehousepathmkdir"><a class="toclink" href="#lakehousepathmkdir">LakehousePath.mkdir</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">mkdir(self, *, parents: 'bool' = True, exist_ok: 'bool' = False) -&gt; 'None'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>parents</code>: <code>bool</code> (default: <code>True</code>)</li>
+<li><code>exist_ok</code>: <code>bool</code> (default: <code>False</code>)</li>
+</ul>
+<p>Returns: <code>None</code></p>
+<p>Create this directory path.</p>
+<h2 id="parameters_4"><a class="toclink" href="#parameters_4">Parameters</a></h2>
+<p>parents:
+    Create missing parents when <code>True</code>.
+exist_ok:
+    Ignore existing directory errors when <code>True</code>.</p>
+<h3 id="lakehousepathopen"><a class="toclink" href="#lakehousepathopen">LakehousePath.open</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">open(self, mode: 'str' = 'r', **kwargs)
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>mode</code>: <code>str</code> (default: <code>r</code>)</li>
+<li><code>kwargs</code></li>
+</ul>
+<p>Returns: Not declared</p>
+<p>Open the path using the backing filesystem.</p>
+<h2 id="parameters_5"><a class="toclink" href="#parameters_5">Parameters</a></h2>
+<p>mode:
+    Standard file mode such as <code>r</code>, <code>rb</code>, <code>w</code>, or <code>wb</code>.
+**kwargs:
+    Additional backend-specific open options.</p>
+<h3 id="lakehousepathread_bytes"><a class="toclink" href="#lakehousepathread_bytes">LakehousePath.read_bytes</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">read_bytes(self) -&gt; 'bytes'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+</ul>
+<p>Returns: <code>bytes</code></p>
+<p>Read and return binary content.</p>
+<h3 id="lakehousepathread_text"><a class="toclink" href="#lakehousepathread_text">LakehousePath.read_text</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">read_text(self, **kwargs) -&gt; 'str'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>kwargs</code></li>
+</ul>
+<p>Returns: <code>str</code></p>
+<p>Read and return text content.</p>
+<h2 id="parameters_6"><a class="toclink" href="#parameters_6">Parameters</a></h2>
+<p>**kwargs:
+    Text mode options passed to <code>open</code>, such as <code>encoding</code>.</p>
+<h3 id="lakehousepathrename"><a class="toclink" href="#lakehousepathrename">LakehousePath.rename</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">rename(self, target: 'str') -&gt; 'LakehousePath'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>target</code>: <code>str</code></li>
+</ul>
+<p>Returns: <code>LakehousePath</code></p>
+<p>Rename this path to a sibling file name.</p>
+<h2 id="parameters_7"><a class="toclink" href="#parameters_7">Parameters</a></h2>
+<p>target:
+    New file name. Must be a single segment, not a path.</p>
+<h2 id="returns_1"><a class="toclink" href="#returns_1">Returns</a></h2>
+<p>LakehousePath
+    New path object pointing to the renamed target.</p>
+<h3 id="lakehousepathresolve"><a class="toclink" href="#lakehousepathresolve">LakehousePath.resolve</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">resolve(self, strict: 'bool' = False) -&gt; 'LakehousePath'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>strict</code>: <code>bool</code> (default: <code>False</code>)</li>
+</ul>
+<p>Returns: <code>LakehousePath</code></p>
+<p>Return a normalized path object.</p>
+<h2 id="parameters_8"><a class="toclink" href="#parameters_8">Parameters</a></h2>
+<p>strict:
+    If <code>True</code>, raise <code>FileNotFoundError</code> when the path does not exist.</p>
+<h3 id="lakehousepathrglob"><a class="toclink" href="#lakehousepathrglob">LakehousePath.rglob</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">rglob(self, pattern: 'str')
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>pattern</code>: <code>str</code></li>
+</ul>
+<p>Returns: Not declared</p>
+<p>Yield paths recursively matching a glob pattern.</p>
+<h2 id="parameters_9"><a class="toclink" href="#parameters_9">Parameters</a></h2>
+<p>pattern:
+    Glob expression evaluated recursively below this path.</p>
+<h3 id="lakehousepathunlink"><a class="toclink" href="#lakehousepathunlink">LakehousePath.unlink</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">unlink(self, *, missing_ok: 'bool' = False) -&gt; 'None'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>missing_ok</code>: <code>bool</code> (default: <code>False</code>)</li>
+</ul>
+<p>Returns: <code>None</code></p>
+<p>Delete a file path.</p>
+<h2 id="parameters_10"><a class="toclink" href="#parameters_10">Parameters</a></h2>
+<p>missing_ok:
+    If <code>True</code>, do not raise when the path is missing.</p>
+<h3 id="lakehousepathwrite_bytes"><a class="toclink" href="#lakehousepathwrite_bytes">LakehousePath.write_bytes</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">write_bytes(self, data: 'bytes') -&gt; 'int'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>data</code>: <code>bytes</code></li>
+</ul>
+<p>Returns: <code>int</code></p>
+<p>Write binary content.</p>
+<h2 id="parameters_11"><a class="toclink" href="#parameters_11">Parameters</a></h2>
+<p>data:
+    Byte payload to write.</p>
+<h3 id="lakehousepathwrite_text"><a class="toclink" href="#lakehousepathwrite_text">LakehousePath.write_text</a></h3>
+<div class="api-signature">
+
+
+<pre><code class="language-python">write_text(self, data: 'str', **kwargs) -&gt; 'int'
+</code></pre>
+
+
+</div>
+
+<p>Parameters:</p>
+<ul>
+<li><code>self</code></li>
+<li><code>data</code>: <code>str</code></li>
+<li><code>kwargs</code></li>
+</ul>
+<p>Returns: <code>int</code></p>
+<p>Write text content.</p>
+<h2 id="parameters_12"><a class="toclink" href="#parameters_12">Parameters</a></h2>
+<p>data:
+    Text payload to write.
+**kwargs:
+    Text mode options passed to <code>open</code>, such as <code>encoding</code>.</p>
+        
+          <div class="pagination">
+            
+            
+              <a class="next" href="../../">Home &rarr;</a>
+            
+          </div>
+        
+      </main>
+      <aside class="sidebar right">
+        <div class="toc">
+<ul>
+<li><a href="#lakehousepath">LakehousePath</a><ul>
+<li><a href="#signature">Signature</a></li>
+<li><a href="#parameters">Parameters</a></li>
+<li><a href="#description">Description</a></li>
+<li><a href="#example">Example</a></li>
+<li><a href="#methods">Methods</a><ul>
+<li><a href="#lakehousepathas_posix">LakehousePath.as_posix</a></li>
+<li><a href="#lakehousepathexists">LakehousePath.exists</a></li>
+<li><a href="#lakehousepathfind">LakehousePath.find</a></li>
+</ul>
+</li>
+<li><a href="#parameters_1">Parameters</a><ul>
+<li><a href="#lakehousepathglob">LakehousePath.glob</a></li>
+</ul>
+</li>
+<li><a href="#parameters_2">Parameters</a><ul>
+<li><a href="#lakehousepathinfo">LakehousePath.info</a></li>
+</ul>
+</li>
+<li><a href="#returns">Returns</a><ul>
+<li><a href="#lakehousepathis_dir">LakehousePath.is_dir</a></li>
+<li><a href="#lakehousepathis_file">LakehousePath.is_file</a></li>
+<li><a href="#lakehousepathiterdir">LakehousePath.iterdir</a></li>
+<li><a href="#lakehousepathjoinpath">LakehousePath.joinpath</a></li>
+</ul>
+</li>
+<li><a href="#parameters_3">Parameters</a><ul>
+<li><a href="#lakehousepathmkdir">LakehousePath.mkdir</a></li>
+</ul>
+</li>
+<li><a href="#parameters_4">Parameters</a><ul>
+<li><a href="#lakehousepathopen">LakehousePath.open</a></li>
+</ul>
+</li>
+<li><a href="#parameters_5">Parameters</a><ul>
+<li><a href="#lakehousepathread_bytes">LakehousePath.read_bytes</a></li>
+<li><a href="#lakehousepathread_text">LakehousePath.read_text</a></li>
+</ul>
+</li>
+<li><a href="#parameters_6">Parameters</a><ul>
+<li><a href="#lakehousepathrename">LakehousePath.rename</a></li>
+</ul>
+</li>
+<li><a href="#parameters_7">Parameters</a></li>
+<li><a href="#returns_1">Returns</a><ul>
+<li><a href="#lakehousepathresolve">LakehousePath.resolve</a></li>
+</ul>
+</li>
+<li><a href="#parameters_8">Parameters</a><ul>
+<li><a href="#lakehousepathrglob">LakehousePath.rglob</a></li>
+</ul>
+</li>
+<li><a href="#parameters_9">Parameters</a><ul>
+<li><a href="#lakehousepathunlink">LakehousePath.unlink</a></li>
+</ul>
+</li>
+<li><a href="#parameters_10">Parameters</a><ul>
+<li><a href="#lakehousepathwrite_bytes">LakehousePath.write_bytes</a></li>
+</ul>
+</li>
+<li><a href="#parameters_11">Parameters</a><ul>
+<li><a href="#lakehousepathwrite_text">LakehousePath.write_text</a></li>
+</ul>
+</li>
+<li><a href="#parameters_12">Parameters</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+      </aside>
+    </div>
+  </body>
+</html>

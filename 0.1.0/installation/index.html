@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation - fablake</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/icons/icon-path-grid.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css">
+    <link rel="stylesheet" href="../stylesheets/extra.css">
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/python.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/bash.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/json.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/yaml.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/toml.min.js"></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.hljs) {
+          window.hljs.highlightAll();
+        }
+      });
+    </script>
+    <script defer src="../javascripts/docs.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">Menu</button>
+      <div class="brand">
+        <img class="brand-icon" src="../assets/icons/icon-path-grid.svg" alt="">
+        <span>fablake</span>
+      </div>
+      <div class="topbar-right">
+        <div class="crumb">Installation</div>
+        <label class="version-picker" for="version-select">
+          <span>Version</span>
+          <select id="version-select" aria-label="Select documentation version"></select>
+        </label>
+      </div>
+    </header>
+    <div class="version-warning" id="version-warning" hidden>
+      You are viewing an older version of the docs.
+      <a id="version-warning-link" href="#">Go to latest</a>
+    </div>
+    <div class="layout">
+      <aside class="sidebar left" id="sidebar-left">
+        <ul>
+<li><a href="../">Home</a></li>
+<li>Getting Started<ul>
+<li><a class="active" href=".">Installation</a></li>
+<li><a href="../quickstart/">Quickstart</a></li>
+<li><a href="../authentication/">Authentication</a></li>
+</ul>
+</li>
+<li>Guides<ul>
+<li><a href="../lakehouse/">Lakehouse API</a></li>
+<li><a href="../files-and-paths/">Files and Paths</a></li>
+<li><a href="../tables/">Tables</a></li>
+<li><a href="../filesystem-interop/">Filesystem Interop</a></li>
+<li><a href="../usage-examples/">Usage Examples</a></li>
+</ul>
+</li>
+<li>Reference<ul>
+<li><a href="../api-reference/">API Overview</a></li>
+<li><a href="../api/">Python API</a></li>
+</ul>
+</li>
+<li><a href="../design-notes/">Design Notes</a></li>
+<li><a href="../changelog/">Changelog</a></li>
+</ul>
+      </aside>
+      <main class="content">
+        <h1 id="installation"><a class="toclink" href="#installation">Installation</a></h1>
+<h2 id="requirements"><a class="toclink" href="#requirements">Requirements</a></h2>
+<ul>
+<li>Python <code>&gt;=3.10</code></li>
+<li>A Microsoft Fabric OneLake Lakehouse to access</li>
+</ul>
+<h2 id="install-with-uv"><a class="toclink" href="#install-with-uv">Install with uv</a></h2>
+<pre><code class="language-bash">uv add fablake
+</code></pre>
+<p>For local and CI authentication with Azure credentials:</p>
+<pre><code class="language-bash">uv add azure-identity
+</code></pre>
+<p>Or install via package extra:</p>
+<pre><code class="language-bash">pip install &quot;fablake[auth]&quot;
+</code></pre>
+<h2 id="install-with-pip"><a class="toclink" href="#install-with-pip">Install with pip</a></h2>
+<pre><code class="language-bash">pip install fablake azure-identity
+</code></pre>
+<h2 id="dependency-model"><a class="toclink" href="#dependency-model">Dependency model</a></h2>
+<p><code>fablake</code> uses:</p>
+<ul>
+<li><code>fsspec</code> for filesystem interfaces</li>
+<li><code>adlfs</code> for Azure Data Lake / ABFS transport</li>
+</ul>
+<p>You can install and use additional data libraries as needed, such as <code>pandas</code>,
+<code>pyarrow</code>, <code>polars</code>, <code>dask</code>, or <code>duckdb</code>.</p>
+        
+          <div class="pagination">
+            
+              <a class="previous" href="../">&larr; Home</a>
+            
+            
+              <a class="next" href="../quickstart/">Quickstart &rarr;</a>
+            
+          </div>
+        
+      </main>
+      <aside class="sidebar right">
+        <div class="toc">
+<ul>
+<li><a href="#installation">Installation</a><ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#install-with-uv">Install with uv</a></li>
+<li><a href="#install-with-pip">Install with pip</a></li>
+<li><a href="#dependency-model">Dependency model</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+      </aside>
+    </div>
+  </body>
+</html>
