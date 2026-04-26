@@ -9,8 +9,6 @@ It focuses on a small, explicit API:
 - `LakehousePath` to work with paths under `Files`
 - `LakehouseTable` locators for paths under `Tables`
 
-Project repository: [github.com/billybillysss/fablake](https://github.com/billybillysss/fablake)
-
 <div class="doc-cards">
   <a class="doc-card" href="quickstart/">
     <h3>Quickstart</h3>
