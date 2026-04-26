@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fablake"
+version = "0.1.0"
+description = "Production-oriented Python library for Microsoft Fabric OneLake Lakehouse access"
+readme = "README.md"
+license = "Apache-2.0"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "fsspec>=2024.9.0",
+    "adlfs>=2024.7.0",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=8.0.0",
+]
+auth = [
+    "azure-identity>=1.17.0",
+]
+live = [
+    "pytest>=8.0.0",
+    "azure-identity>=1.17.0",
+]
+
+[dependency-groups]
+docs = [
+    "mkdocs @ git+https://github.com/encode/mkdocs.git",
+]
+
+[tool.setuptools.packages.find]
+include = ["fablake*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "unit: deterministic unit tests with fakes",
+    "contract: deterministic public API contract tests",
+    "live_fablake: real Microsoft Fabric / fablake integration tests",
+    "slow: long-running tests",
+    "smoke: minimal integration verification",
+]

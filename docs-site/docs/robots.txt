@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://billybillysss.github.io/fablake/sitemap.xml

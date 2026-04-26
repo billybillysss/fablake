@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ nav.current.title or page.title }}{% if config.context.title %} - {{ config.context.title }}{% endif %}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ '/assets/icons/icon-path-grid.svg' | url }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css">
+    <link rel="stylesheet" href="{{ '/stylesheets/extra.css' | url }}">
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/python.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/bash.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/json.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/yaml.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/toml.min.js"></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.hljs) {
+          window.hljs.highlightAll();
+        }
+      });
+    </script>
+    <script defer src="{{ '/javascripts/docs.js' | url }}"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">Menu</button>
+      <div class="brand">
+        <img class="brand-icon" src="{{ '/assets/icons/icon-path-grid.svg' | url }}" alt="">
+        <span>{{ config.context.title }}</span>
+      </div>
+      <div class="topbar-right">
+        <div class="crumb">{{ nav.current.title or page.title }}</div>
+        <label class="version-picker" for="version-select">
+          <span>Version</span>
+          <select id="version-select" aria-label="Select documentation version"></select>
+        </label>
+      </div>
+    </header>
+    <div class="version-warning" id="version-warning" hidden>
+      You are viewing an older version of the docs.
+      <a id="version-warning-link" href="#">Go to latest</a>
+    </div>
+    <div class="layout">
+      <aside class="sidebar left" id="sidebar-left">
+        {{ nav.html }}
+      </aside>
+      <main class="content">
+        {{ page.html }}
+        {% if nav.previous or nav.next %}
+          <div class="pagination">
+            {% if nav.previous %}
+              <a class="previous" href="{{ nav.previous.url }}">&larr; {{ nav.previous.title }}</a>
+            {% endif %}
+            {% if nav.next %}
+              <a class="next" href="{{ nav.next.url }}">{{ nav.next.title }} &rarr;</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      </main>
+      <aside class="sidebar right">
+        {{ page.toc }}
+      </aside>
+    </div>
+  </body>
+</html>
