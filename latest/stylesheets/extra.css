@@ -64,6 +64,24 @@ body {
   gap: 16px;
 }
 
+.repo-link {
+  color: #f8fafc;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(12, 43, 56, 0.25);
+  border-radius: 8px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.repo-link:hover {
+  background: rgba(12, 43, 56, 0.38);
+}
+
 .version-picker {
   display: inline-flex;
   align-items: center;
@@ -342,6 +360,10 @@ body {
 
   .topbar-right {
     gap: 10px;
+  }
+
+  .repo-link {
+    padding: 0 8px;
   }
 
   .crumb {
