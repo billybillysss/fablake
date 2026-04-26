@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog - fablake</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/icons/icon-path-grid.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css">
+    <link rel="stylesheet" href="../stylesheets/extra.css">
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/python.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/bash.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/json.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/yaml.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/toml.min.js"></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.hljs) {
+          window.hljs.highlightAll();
+        }
+      });
+    </script>
+    <script defer src="../javascripts/docs.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">Menu</button>
+      <div class="brand">
+        <img class="brand-icon" src="../assets/icons/icon-path-grid.svg" alt="">
+        <span>fablake</span>
+      </div>
+      <div class="topbar-right">
+        <div class="crumb">Changelog</div>
+        <label class="version-picker" for="version-select">
+          <span>Version</span>
+          <select id="version-select" aria-label="Select documentation version"></select>
+        </label>
+      </div>
+    </header>
+    <div class="version-warning" id="version-warning" hidden>
+      You are viewing an older version of the docs.
+      <a id="version-warning-link" href="#">Go to latest</a>
+    </div>
+    <div class="layout">
+      <aside class="sidebar left" id="sidebar-left">
+        <ul>
+<li><a href="../">Home</a></li>
+<li>Getting Started<ul>
+<li><a href="../installation/">Installation</a></li>
+<li><a href="../quickstart/">Quickstart</a></li>
+<li><a href="../authentication/">Authentication</a></li>
+</ul>
+</li>
+<li>Guides<ul>
+<li><a href="../lakehouse/">Lakehouse API</a></li>
+<li><a href="../files-and-paths/">Files and Paths</a></li>
+<li><a href="../tables/">Tables</a></li>
+<li><a href="../filesystem-interop/">Filesystem Interop</a></li>
+<li><a href="../usage-examples/">Usage Examples</a></li>
+</ul>
+</li>
+<li>Reference<ul>
+<li><a href="../api-reference/">API Overview</a></li>
+<li><a href="../api/">Python API</a></li>
+</ul>
+</li>
+<li><a href="../design-notes/">Design Notes</a></li>
+<li><a class="active" href=".">Changelog</a></li>
+</ul>
+      </aside>
+      <main class="content">
+        <h1 id="changelog"><a class="toclink" href="#changelog">Changelog</a></h1>
+<p>All notable changes to this project are documented in this file.</p>
+<h2 id="unreleased"><a class="toclink" href="#unreleased">Unreleased</a></h2>
+<h2 id="010-2026-04-26"><a class="toclink" href="#010-2026-04-26">0.1.0 - 2026-04-26</a></h2>
+<h3 id="added"><a class="toclink" href="#added">Added</a></h3>
+<ul>
+<li>Initial public release of <code>fablake</code> as a production-oriented OneLake Lakehouse
+  path and filesystem library.</li>
+<li><code>Lakehouse</code> as the main entry point with explicit name-based and ID-based
+  binding modes.</li>
+<li><code>LakehousePath</code> for pathlib-like <code>Files</code> operations.</li>
+<li><code>LakehouseTable</code> table-root locator for <code>Tables</code> paths.</li>
+<li>Authentication resolution across explicit credentials and Azure identity
+  defaults.</li>
+<li>Interop-oriented filesystem APIs and storage options for pandas, PyArrow,
+  Polars, Dask, and DuckDB workflows.</li>
+</ul>
+        
+          <div class="pagination">
+            
+              <a class="previous" href="../design-notes/">&larr; Design Notes</a>
+            
+            
+          </div>
+        
+      </main>
+      <aside class="sidebar right">
+        <div class="toc">
+<ul>
+<li><a href="#changelog">Changelog</a><ul>
+<li><a href="#unreleased">Unreleased</a></li>
+<li><a href="#010-2026-04-26">0.1.0 - 2026-04-26</a><ul>
+<li><a href="#added">Added</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+      </aside>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - fablake</title>
+    <link rel="icon" type="image/svg+xml" href="assets/icons/icon-path-grid.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css">
+    <link rel="stylesheet" href="stylesheets/extra.css">
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/python.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/bash.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/json.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/yaml.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/toml.min.js"></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.hljs) {
+          window.hljs.highlightAll();
+        }
+      });
+    </script>
+    <script defer src="javascripts/docs.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">Menu</button>
+      <div class="brand">
+        <img class="brand-icon" src="assets/icons/icon-path-grid.svg" alt="">
+        <span>fablake</span>
+      </div>
+      <div class="topbar-right">
+        <div class="crumb">Home</div>
+        <label class="version-picker" for="version-select">
+          <span>Version</span>
+          <select id="version-select" aria-label="Select documentation version"></select>
+        </label>
+      </div>
+    </header>
+    <div class="version-warning" id="version-warning" hidden>
+      You are viewing an older version of the docs.
+      <a id="version-warning-link" href="#">Go to latest</a>
+    </div>
+    <div class="layout">
+      <aside class="sidebar left" id="sidebar-left">
+        <ul>
+<li><a class="active" href=".">Home</a></li>
+<li>Getting Started<ul>
+<li><a href="installation/">Installation</a></li>
+<li><a href="quickstart/">Quickstart</a></li>
+<li><a href="authentication/">Authentication</a></li>
+</ul>
+</li>
+<li>Guides<ul>
+<li><a href="lakehouse/">Lakehouse API</a></li>
+<li><a href="files-and-paths/">Files and Paths</a></li>
+<li><a href="tables/">Tables</a></li>
+<li><a href="filesystem-interop/">Filesystem Interop</a></li>
+<li><a href="usage-examples/">Usage Examples</a></li>
+</ul>
+</li>
+<li>Reference<ul>
+<li><a href="api-reference/">API Overview</a></li>
+<li><a href="api/">Python API</a></li>
+</ul>
+</li>
+<li><a href="design-notes/">Design Notes</a></li>
+<li><a href="changelog/">Changelog</a></li>
+</ul>
+      </aside>
+      <main class="content">
+        <h1 id="fablake-documentation"><a class="toclink" href="#fablake-documentation">fablake documentation</a></h1>
+<p><code>fablake</code> is a filesystem-first Python library for Microsoft Fabric OneLake
+Lakehouse access.</p>
+<p>It focuses on a small, explicit API:</p>
+<ul>
+<li><code>Lakehouse</code> to bind a workspace and lakehouse context</li>
+<li><code>LakehousePath</code> to work with paths under <code>Files</code></li>
+<li><code>LakehouseTable</code> locators for paths under <code>Tables</code></li>
+</ul>
+<p>Project repository: <a href="https://github.com/billybillysss/fablake">github.com/billybillysss/fablake</a></p>
+<div class="doc-cards">
+  <a class="doc-card" href="quickstart/">
+    <h3>Quickstart</h3>
+    <p>Get productive in a few minutes with Lakehouse, files, and table locators.</p>
+  </a>
+  <a class="doc-card" href="authentication/">
+    <h3>Authentication</h3>
+    <p>Learn default runtime auth behavior and how to pass explicit credentials.</p>
+  </a>
+  <a class="doc-card" href="api/">
+    <h3>Python API</h3>
+    <p>Browse signatures, parameters, and behavior notes by object.</p>
+  </a>
+</div>
+
+<h2 id="start-here"><a class="toclink" href="#start-here">Start here</a></h2>
+<ul>
+<li><a href="installation/">Installation</a></li>
+<li><a href="quickstart/">Quickstart</a></li>
+<li><a href="authentication/">Authentication</a></li>
+</ul>
+<h2 id="guides"><a class="toclink" href="#guides">Guides</a></h2>
+<ul>
+<li><a href="lakehouse/">Lakehouse API</a></li>
+<li><a href="files-and-paths/">Files and paths</a></li>
+<li><a href="tables/">Tables</a></li>
+<li><a href="filesystem-interop/">Filesystem interop</a></li>
+<li><a href="usage-examples/">Usage examples</a></li>
+</ul>
+<h2 id="reference"><a class="toclink" href="#reference">Reference</a></h2>
+<ul>
+<li><a href="api-reference/">API reference</a></li>
+<li><a href="api/">Python API</a></li>
+<li><a href="design-notes/">Design notes</a></li>
+<li><a href="changelog/">Changelog</a></li>
+</ul>
+        
+          <div class="pagination">
+            
+            
+              <a class="next" href="installation/">Installation &rarr;</a>
+            
+          </div>
+        
+      </main>
+      <aside class="sidebar right">
+        <div class="toc">
+<ul>
+<li><a href="#fablake-documentation">fablake documentation</a><ul>
+<li><a href="#start-here">Start here</a></li>
+<li><a href="#guides">Guides</a></li>
+<li><a href="#reference">Reference</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+      </aside>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "default": "latest",
+  "versions": [
+    {
+      "key": "latest",
+      "label": "latest"
+    }
+  ]
+}

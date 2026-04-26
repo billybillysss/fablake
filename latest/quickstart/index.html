@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quickstart - fablake</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/icons/icon-path-grid.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css">
+    <link rel="stylesheet" href="../stylesheets/extra.css">
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/python.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/bash.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/json.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/yaml.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/toml.min.js"></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.hljs) {
+          window.hljs.highlightAll();
+        }
+      });
+    </script>
+    <script defer src="../javascripts/docs.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">Menu</button>
+      <div class="brand">
+        <img class="brand-icon" src="../assets/icons/icon-path-grid.svg" alt="">
+        <span>fablake</span>
+      </div>
+      <div class="topbar-right">
+        <div class="crumb">Quickstart</div>
+        <label class="version-picker" for="version-select">
+          <span>Version</span>
+          <select id="version-select" aria-label="Select documentation version"></select>
+        </label>
+      </div>
+    </header>
+    <div class="version-warning" id="version-warning" hidden>
+      You are viewing an older version of the docs.
+      <a id="version-warning-link" href="#">Go to latest</a>
+    </div>
+    <div class="layout">
+      <aside class="sidebar left" id="sidebar-left">
+        <ul>
+<li><a href="../">Home</a></li>
+<li>Getting Started<ul>
+<li><a href="../installation/">Installation</a></li>
+<li><a class="active" href=".">Quickstart</a></li>
+<li><a href="../authentication/">Authentication</a></li>
+</ul>
+</li>
+<li>Guides<ul>
+<li><a href="../lakehouse/">Lakehouse API</a></li>
+<li><a href="../files-and-paths/">Files and Paths</a></li>
+<li><a href="../tables/">Tables</a></li>
+<li><a href="../filesystem-interop/">Filesystem Interop</a></li>
+<li><a href="../usage-examples/">Usage Examples</a></li>
+</ul>
+</li>
+<li>Reference<ul>
+<li><a href="../api-reference/">API Overview</a></li>
+<li><a href="../api/">Python API</a></li>
+</ul>
+</li>
+<li><a href="../design-notes/">Design Notes</a></li>
+<li><a href="../changelog/">Changelog</a></li>
+</ul>
+      </aside>
+      <main class="content">
+        <h1 id="quickstart"><a class="toclink" href="#quickstart">Quickstart</a></h1>
+<h2 id="create-a-lakehouse-context"><a class="toclink" href="#create-a-lakehouse-context">Create a lakehouse context</a></h2>
+<pre><code class="language-python">from fablake import Lakehouse
+
+lh = Lakehouse(
+    workspace=&quot;Finance&quot;,
+    lakehouse=&quot;Ops&quot;,
+    schema_enabled=True,
+)
+</code></pre>
+<p>You can also bind by IDs:</p>
+<pre><code class="language-python">lh = Lakehouse(
+    workspace_id=&quot;&lt;workspace-id&gt;&quot;,
+    lakehouse_id=&quot;&lt;lakehouse-id&gt;&quot;,
+    schema_enabled=True,
+)
+</code></pre>
+<h2 id="work-with-files"><a class="toclink" href="#work-with-files">Work with files</a></h2>
+<pre><code class="language-python">path = lh.files / &quot;raw&quot; / &quot;orders&quot; / &quot;2026-01-01.json&quot;
+
+if path.exists():
+    print(path.read_text())
+
+output = lh.files / &quot;tmp&quot; / &quot;result.txt&quot;
+output.parent.mkdir(parents=True, exist_ok=True)
+output.write_text(&quot;done&quot;)
+</code></pre>
+<h2 id="build-table-locators"><a class="toclink" href="#build-table-locators">Build table locators</a></h2>
+<pre><code class="language-python">orders = lh.table(&quot;orders&quot;, schema=&quot;brz&quot;)
+print(orders)
+# abfss://.../Tables/brz/orders
+</code></pre>
+<p>In schema-enabled lakehouses, <code>schema=None</code> maps to <code>dbo</code>:</p>
+<pre><code class="language-python">default_orders = lh.table(&quot;orders&quot;, schema=None)
+print(default_orders)
+# abfss://.../Tables/dbo/orders
+</code></pre>
+<p>For non-schema lakehouses:</p>
+<pre><code class="language-python">lh = Lakehouse(workspace=&quot;Finance&quot;, lakehouse=&quot;Ops&quot;, schema_enabled=False)
+orders = lh.table(&quot;orders&quot;, schema=None)
+</code></pre>
+<p>List matching table locators:</p>
+<pre><code class="language-python">for table in lh.tables.list(&quot;db*.*der&quot;):
+    print(table)
+</code></pre>
+        
+          <div class="pagination">
+            
+              <a class="previous" href="../installation/">&larr; Installation</a>
+            
+            
+              <a class="next" href="../authentication/">Authentication &rarr;</a>
+            
+          </div>
+        
+      </main>
+      <aside class="sidebar right">
+        <div class="toc">
+<ul>
+<li><a href="#quickstart">Quickstart</a><ul>
+<li><a href="#create-a-lakehouse-context">Create a lakehouse context</a></li>
+<li><a href="#work-with-files">Work with files</a></li>
+<li><a href="#build-table-locators">Build table locators</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+      </aside>
+    </div>
+  </body>
+</html>

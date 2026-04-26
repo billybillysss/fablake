@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Files and Paths - fablake</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/icons/icon-path-grid.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css">
+    <link rel="stylesheet" href="../stylesheets/extra.css">
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/python.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/bash.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/json.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/yaml.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/toml.min.js"></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.hljs) {
+          window.hljs.highlightAll();
+        }
+      });
+    </script>
+    <script defer src="../javascripts/docs.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">Menu</button>
+      <div class="brand">
+        <img class="brand-icon" src="../assets/icons/icon-path-grid.svg" alt="">
+        <span>fablake</span>
+      </div>
+      <div class="topbar-right">
+        <div class="crumb">Files and Paths</div>
+        <label class="version-picker" for="version-select">
+          <span>Version</span>
+          <select id="version-select" aria-label="Select documentation version"></select>
+        </label>
+      </div>
+    </header>
+    <div class="version-warning" id="version-warning" hidden>
+      You are viewing an older version of the docs.
+      <a id="version-warning-link" href="#">Go to latest</a>
+    </div>
+    <div class="layout">
+      <aside class="sidebar left" id="sidebar-left">
+        <ul>
+<li><a href="../">Home</a></li>
+<li>Getting Started<ul>
+<li><a href="../installation/">Installation</a></li>
+<li><a href="../quickstart/">Quickstart</a></li>
+<li><a href="../authentication/">Authentication</a></li>
+</ul>
+</li>
+<li>Guides<ul>
+<li><a href="../lakehouse/">Lakehouse API</a></li>
+<li><a class="active" href=".">Files and Paths</a></li>
+<li><a href="../tables/">Tables</a></li>
+<li><a href="../filesystem-interop/">Filesystem Interop</a></li>
+<li><a href="../usage-examples/">Usage Examples</a></li>
+</ul>
+</li>
+<li>Reference<ul>
+<li><a href="../api-reference/">API Overview</a></li>
+<li><a href="../api/">Python API</a></li>
+</ul>
+</li>
+<li><a href="../design-notes/">Design Notes</a></li>
+<li><a href="../changelog/">Changelog</a></li>
+</ul>
+      </aside>
+      <main class="content">
+        <h1 id="files-and-paths"><a class="toclink" href="#files-and-paths">Files and paths</a></h1>
+<p><code>lh.files</code> is the root <code>LakehousePath</code> for the Lakehouse <code>Files</code> area.</p>
+<h2 id="build-paths"><a class="toclink" href="#build-paths">Build paths</a></h2>
+<pre><code class="language-python">path = lh.files / &quot;raw&quot; / &quot;orders&quot; / &quot;2026-01-01.json&quot;
+
+print(path.as_posix())
+# raw/orders/2026-01-01.json
+
+print(str(path))
+# abfss://.../Files/raw/orders/2026-01-01.json
+</code></pre>
+<p>You can also build a path from a string:</p>
+<pre><code class="language-python">logs = lh.path(&quot;logs/2026/04&quot;, root=&quot;Files&quot;)
+</code></pre>
+<h2 id="path-semantics"><a class="toclink" href="#path-semantics">Path semantics</a></h2>
+<ul>
+<li><code>as_posix()</code> returns the logical path under the selected root</li>
+<li><code>str(path)</code> returns the fully qualified ABFSS URI</li>
+<li><code>path.parent</code>, <code>path.name</code>, <code>path.stem</code>, <code>path.suffix</code>, and <code>path.parts</code>
+  follow pathlib-style behavior</li>
+</ul>
+<h2 id="common-operations"><a class="toclink" href="#common-operations">Common operations</a></h2>
+<pre><code class="language-python">path.exists()
+path.is_file()
+path.is_dir()
+path.info()
+
+path.read_text()
+path.write_text(&quot;hello&quot;)
+
+path.read_bytes()
+path.write_bytes(b&quot;hello&quot;)
+</code></pre>
+<p>Directory and discovery operations:</p>
+<pre><code class="language-python">path.parent.mkdir(parents=True, exist_ok=True)
+
+for child in (lh.files / &quot;raw&quot;).iterdir():
+    print(child)
+
+for item in (lh.files / &quot;raw&quot;).find(withdirs=True):
+    print(item)
+</code></pre>
+<h2 id="rename-behavior"><a class="toclink" href="#rename-behavior">Rename behavior</a></h2>
+<p><code>LakehousePath.rename(target)</code> only accepts a single file name segment.</p>
+<p>Accepted:</p>
+<ul>
+<li><code>result-final.txt</code></li>
+</ul>
+<p>Rejected:</p>
+<ul>
+<li><code>../result.txt</code></li>
+<li><code>archive/result.txt</code></li>
+<li><code>path-like</code> <code>LakehousePath</code> objects</li>
+</ul>
+<p>The root path itself cannot be renamed.</p>
+        
+          <div class="pagination">
+            
+              <a class="previous" href="../lakehouse/">&larr; Lakehouse API</a>
+            
+            
+              <a class="next" href="../tables/">Tables &rarr;</a>
+            
+          </div>
+        
+      </main>
+      <aside class="sidebar right">
+        <div class="toc">
+<ul>
+<li><a href="#files-and-paths">Files and paths</a><ul>
+<li><a href="#build-paths">Build paths</a></li>
+<li><a href="#path-semantics">Path semantics</a></li>
+<li><a href="#common-operations">Common operations</a></li>
+<li><a href="#rename-behavior">Rename behavior</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+      </aside>
+    </div>
+  </body>
+</html>

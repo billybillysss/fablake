@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Overview - fablake</title>
+    <link rel="icon" type="image/svg+xml" href="../assets/icons/icon-path-grid.svg">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github-dark.min.css">
+    <link rel="stylesheet" href="../stylesheets/extra.css">
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/python.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/bash.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/json.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/yaml.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/languages/toml.min.js"></script>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        if (window.hljs) {
+          window.hljs.highlightAll();
+        }
+      });
+    </script>
+    <script defer src="../javascripts/docs.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">Menu</button>
+      <div class="brand">
+        <img class="brand-icon" src="../assets/icons/icon-path-grid.svg" alt="">
+        <span>fablake</span>
+      </div>
+      <div class="topbar-right">
+        <div class="crumb">API Overview</div>
+        <label class="version-picker" for="version-select">
+          <span>Version</span>
+          <select id="version-select" aria-label="Select documentation version"></select>
+        </label>
+      </div>
+    </header>
+    <div class="version-warning" id="version-warning" hidden>
+      You are viewing an older version of the docs.
+      <a id="version-warning-link" href="#">Go to latest</a>
+    </div>
+    <div class="layout">
+      <aside class="sidebar left" id="sidebar-left">
+        <ul>
+<li><a href="../">Home</a></li>
+<li>Getting Started<ul>
+<li><a href="../installation/">Installation</a></li>
+<li><a href="../quickstart/">Quickstart</a></li>
+<li><a href="../authentication/">Authentication</a></li>
+</ul>
+</li>
+<li>Guides<ul>
+<li><a href="../lakehouse/">Lakehouse API</a></li>
+<li><a href="../files-and-paths/">Files and Paths</a></li>
+<li><a href="../tables/">Tables</a></li>
+<li><a href="../filesystem-interop/">Filesystem Interop</a></li>
+<li><a href="../usage-examples/">Usage Examples</a></li>
+</ul>
+</li>
+<li>Reference<ul>
+<li><a class="active" href=".">API Overview</a></li>
+<li><a href="../api/">Python API</a></li>
+</ul>
+</li>
+<li><a href="../design-notes/">Design Notes</a></li>
+<li><a href="../changelog/">Changelog</a></li>
+</ul>
+      </aside>
+      <main class="content">
+        <h1 id="api-reference"><a class="toclink" href="#api-reference">API reference</a></h1>
+<p>This page documents the public API surface exposed by <code>fablake</code>.</p>
+<p>For signatures and per-function parameter details, see
+<a href="api/">Python API</a>.</p>
+<h2 id="top-level-exports"><a class="toclink" href="#top-level-exports">Top-level exports</a></h2>
+<p>From <code>fablake</code>:</p>
+<ul>
+<li><code>Lakehouse</code></li>
+<li><code>LakehousePath</code></li>
+<li><code>LakehousePathInfo</code></li>
+</ul>
+<p>From <code>fablake.lakehouse</code>:</p>
+<ul>
+<li><code>Lakehouse</code></li>
+<li><code>LakehouseTable</code></li>
+<li><code>LakehouseTables</code></li>
+</ul>
+<h2 id="lakehouse"><a class="toclink" href="#lakehouse">Lakehouse</a></h2>
+<p>Main object for binding workspace/lakehouse context and creating file/table
+locators.</p>
+<h3 id="constructor"><a class="toclink" href="#constructor">Constructor</a></h3>
+<pre><code class="language-python">Lakehouse(
+    *,
+    workspace: str | None = None,
+    workspace_id: str | None = None,
+    lakehouse: str | None = None,
+    lakehouse_id: str | None = None,
+    schema_enabled: bool = True,
+    **filesystem_kwargs,
+)
+</code></pre>
+<h3 id="properties"><a class="toclink" href="#properties">Properties</a></h3>
+<ul>
+<li><code>workspace: str | None</code></li>
+<li><code>workspace_id: str</code></li>
+<li><code>lakehouse: str | None</code></li>
+<li><code>lakehouse_id: str</code></li>
+<li><code>binding: LakehouseBinding</code></li>
+<li><code>schema_enabled: bool | None</code></li>
+<li><code>fs</code></li>
+<li><code>storage_options: dict[str, Any]</code></li>
+<li><code>files: LakehousePath</code></li>
+<li><code>tables: LakehouseTables</code></li>
+</ul>
+<h3 id="methods"><a class="toclink" href="#methods">Methods</a></h3>
+<ul>
+<li><code>path(path: str = "", *, root: str = "Files") -&gt; LakehousePath</code></li>
+<li><code>table(name: str, schema: str | None = None) -&gt; LakehouseTable</code></li>
+</ul>
+<h2 id="lakehousepath"><a class="toclink" href="#lakehousepath">LakehousePath</a></h2>
+<p>Path-like wrapper around fablake file paths under a selected root.</p>
+<h3 id="selected-properties"><a class="toclink" href="#selected-properties">Selected properties</a></h3>
+<ul>
+<li><code>fs</code></li>
+<li><code>root</code></li>
+<li><code>path</code></li>
+<li><code>parts</code></li>
+<li><code>name</code></li>
+<li><code>stem</code></li>
+<li><code>suffix</code></li>
+<li><code>parent</code></li>
+<li><code>uri</code></li>
+</ul>
+<h3 id="selected-methods"><a class="toclink" href="#selected-methods">Selected methods</a></h3>
+<ul>
+<li>path construction: <code>joinpath(...)</code>, <code>/</code></li>
+<li>conversion: <code>as_posix()</code>, <code>__fspath__()</code></li>
+<li>metadata: <code>exists()</code>, <code>is_dir()</code>, <code>is_file()</code>, <code>info()</code></li>
+<li>traversal: <code>iterdir()</code>, <code>glob()</code>, <code>rglob()</code>, <code>find(...)</code></li>
+<li>file ops: <code>open(...)</code>, <code>read_text(...)</code>, <code>read_bytes(...)</code>,
+  <code>write_text(...)</code>, <code>write_bytes(...)</code></li>
+<li>dir ops: <code>mkdir(...)</code></li>
+<li>mutation: <code>unlink(...)</code>, <code>rename(...)</code></li>
+<li>resolution: <code>resolve(...)</code></li>
+</ul>
+<h2 id="lakehousetable"><a class="toclink" href="#lakehousetable">LakehouseTable</a></h2>
+<p>Table root locator for the <code>Tables</code> area.</p>
+<h3 id="fields"><a class="toclink" href="#fields">Fields</a></h3>
+<ul>
+<li><code>schema: str | None</code></li>
+<li><code>name: str</code></li>
+<li><code>schema_enabled: bool</code></li>
+</ul>
+<h3 id="properties_1"><a class="toclink" href="#properties_1">Properties</a></h3>
+<ul>
+<li><code>relative_path: str</code></li>
+<li><code>uri: str</code></li>
+</ul>
+<h3 id="behavior"><a class="toclink" href="#behavior">Behavior</a></h3>
+<ul>
+<li><code>str(table)</code> returns the ABFSS URI</li>
+<li><code>os.fspath(table)</code> returns the ABFSS URI</li>
+</ul>
+<h2 id="lakehousetables"><a class="toclink" href="#lakehousetables">LakehouseTables</a></h2>
+<p>Table discovery helper attached to <code>Lakehouse.tables</code>.</p>
+<h3 id="methods_1"><a class="toclink" href="#methods_1">Methods</a></h3>
+<ul>
+<li><code>list(pattern: str = "*", *, schema: str | None = None) -&gt; list[LakehouseTable]</code></li>
+</ul>
+<p>Pattern behavior:</p>
+<ul>
+<li>schema-enabled + no schema filter: match <code>&lt;schema&gt;.&lt;table&gt;</code></li>
+<li>schema-enabled + <code>schema=...</code>: match <code>&lt;table&gt;</code> names in that schema</li>
+<li>non-schema mode: match <code>&lt;table&gt;</code></li>
+</ul>
+<h2 id="lakehousepathinfo"><a class="toclink" href="#lakehousepathinfo">LakehousePathInfo</a></h2>
+<p>Dataclass returned by <code>LakehousePath.info()</code>.</p>
+<p>Fields include:</p>
+<ul>
+<li><code>name</code>, <code>type</code>, <code>size</code></li>
+<li><code>metadata</code>, <code>creation_time</code>, <code>deleted</code>, <code>deleted_time</code>, <code>last_modified</code></li>
+<li><code>content_settings</code>, <code>remaining_retention_days</code>, <code>archive_status</code></li>
+<li><code>last_accessed_on</code>, <code>etag</code>, <code>tags</code>, <code>tag_count</code></li>
+<li><code>raw</code></li>
+</ul>
+<h2 id="exceptions"><a class="toclink" href="#exceptions">Exceptions</a></h2>
+<ul>
+<li><code>FabLakeError</code>: base package exception</li>
+<li><code>ResolutionError</code>: raised for workspace/lakehouse resolution failures</li>
+<li><code>TableIdentifierError</code>: raised for malformed table identifiers</li>
+<li><code>SparkRequiredError</code>: raised when Spark is required but unavailable</li>
+</ul>
+        
+          <div class="pagination">
+            
+              <a class="previous" href="../usage-examples/">&larr; Usage Examples</a>
+            
+            
+              <a class="next" href="../api/">Python API &rarr;</a>
+            
+          </div>
+        
+      </main>
+      <aside class="sidebar right">
+        <div class="toc">
+<ul>
+<li><a href="#api-reference">API reference</a><ul>
+<li><a href="#top-level-exports">Top-level exports</a></li>
+<li><a href="#lakehouse">Lakehouse</a><ul>
+<li><a href="#constructor">Constructor</a></li>
+<li><a href="#properties">Properties</a></li>
+<li><a href="#methods">Methods</a></li>
+</ul>
+</li>
+<li><a href="#lakehousepath">LakehousePath</a><ul>
+<li><a href="#selected-properties">Selected properties</a></li>
+<li><a href="#selected-methods">Selected methods</a></li>
+</ul>
+</li>
+<li><a href="#lakehousetable">LakehouseTable</a><ul>
+<li><a href="#fields">Fields</a></li>
+<li><a href="#properties_1">Properties</a></li>
+<li><a href="#behavior">Behavior</a></li>
+</ul>
+</li>
+<li><a href="#lakehousetables">LakehouseTables</a><ul>
+<li><a href="#methods_1">Methods</a></li>
+</ul>
+</li>
+<li><a href="#lakehousepathinfo">LakehousePathInfo</a></li>
+<li><a href="#exceptions">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+      </aside>
+    </div>
+  </body>
+</html>
