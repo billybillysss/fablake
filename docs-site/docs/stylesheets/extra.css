@@ -26,13 +26,27 @@ body {
   color: #f8fafc;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   justify-content: flex-start;
   padding: 0 18px;
   border-bottom: 1px solid #0c5f59;
   position: sticky;
   top: 0;
   z-index: 20;
+}
+
+.topbar-left {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.topbar-center {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
 }
 
 .brand {
@@ -58,28 +72,64 @@ body {
 }
 
 .topbar-right {
-  margin-left: auto;
+  margin-left: 12px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: flex-end;
 }
 
 .repo-link {
-  color: #f8fafc;
+  color: #e2e8f0;
   text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  background: rgba(12, 43, 56, 0.25);
-  border-radius: 8px;
-  height: 34px;
+  border: 0;
+  background: transparent;
   display: inline-flex;
   align-items: center;
-  padding: 0 10px;
-  font-size: 0.82rem;
-  font-weight: 600;
+  padding: 0;
+  min-height: 0;
+  min-width: 0;
+  gap: 8px;
+}
+
+.repo-link-title {
+  font-size: 0.84rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.repo-link-icon {
+  font-size: 1.08rem;
+  line-height: 1;
+  color: inherit;
+  opacity: 1;
+}
+
+.repo-link-body {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.repo-link-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+  font-size: 0.72rem;
+  opacity: 0.86;
+}
+
+.repo-chip,
+.repo-stat {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .repo-link:hover {
-  background: rgba(12, 43, 56, 0.38);
+  color: #cbd5e1;
+  background: transparent;
 }
 
 .version-picker {
@@ -358,12 +408,17 @@ body {
     align-items: center;
   }
 
+  .topbar-center {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
   .topbar-right {
-    gap: 10px;
+    margin-left: 0;
   }
 
   .repo-link {
-    padding: 0 8px;
+    display: none;
   }
 
   .crumb {
